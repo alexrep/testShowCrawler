@@ -1,7 +1,8 @@
 import {CrawlerConfig} from "../types";
 import {HTTPAdapter, MongoAdapter} from "../types/api";
+import EventEmitter = NodeJS.EventEmitter;
 
-export class ShowCrawler {
+export class ShowCrawler extends EventEmitter{
     private http: HTTPAdapter;
     private storage: MongoAdapter;
     private config: CrawlerConfig;
@@ -12,6 +13,7 @@ export class ShowCrawler {
     private scheduledTasks: number;
 
     constructor(http: HTTPAdapter, storage: MongoAdapter, offset: number, config: CrawlerConfig, logger: any) {
+        super();
         this.http = http;
         this.storage = storage;
         this.config = config;
@@ -37,6 +39,15 @@ export class ShowCrawler {
             this.currentIndex ++;
             await this.process(id);
         }
+
+        if (this.noTasksLeft()){
+            this.logger.info("Job is done");
+            this.emit("done")
+        }
+    }
+
+    private noTasksLeft():boolean{
+        return this.requestCount == 0 && this.scheduledTasks == 0
     }
 
     async process(id: number, attempt: number = 0) {
@@ -73,7 +84,7 @@ export class ShowCrawler {
         this.requestCount --;
     }
 
-    scheduleNext(){
+    private scheduleNext(){
         this.scheduledTasks ++ ;
         setTimeout(()=> {
             this.scheduledTasks --;
