@@ -12,8 +12,13 @@ export class MongoAdapterImpl implements MongoAdapter {
         this.logger.debug("MongoAdapterImpl ", config);
     }
 
-    public async storeShow(show: ApiShowResult): Promise<any> {
-        return await this.collection.insertOne(show);
+    public async storeShow(show: ApiShowResult): Promise<void> {
+        const {id} = show;
+        const result = await this.collection.findOneAndReplace({id}, show);
+        this.logger.debug("Record replaced %s", !!result.value);
+        if (!result.value){
+            await this.collection.insertOne(show);
+        }
     }
 
     public async getLastLoadedId(): Promise<number> {

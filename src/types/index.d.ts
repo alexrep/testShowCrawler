@@ -2,9 +2,7 @@
 export interface ApiShowResult {
     id : number,
     name: string,
-    _embed: {
-        cast: Actor[];
-    }
+    _embedded: object
 }
 
 export interface Actor{
@@ -20,6 +18,9 @@ export interface DbConfig {
 export interface HTTPConfig {
     url: string,
     options: string,
+    errorTimeout: number,
+    attempts: number,
+    skipRetryError: number
 }
 
 export interface CrawlerConfig {
@@ -27,9 +28,8 @@ export interface CrawlerConfig {
     option: string,
     parallelRequests: number,
     notFoundThreshold: number,
-    errorTimeout: number,
     regularTimeout: number
-    attempts: number
+
 }
 
 

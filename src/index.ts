@@ -14,7 +14,16 @@ async function start() {
 
     const httpAdapter = new HTTPAdapterImpl( Axios.create() , config["http"], logger);
     const mongoAdapter = new MongoAdapterImpl(client, config["db"], logger);
-    const crawler = new ShowCrawler(httpAdapter, mongoAdapter, config.app.offset , config["crawler"], logger);
+
+    let offset;
+    if (config.app.ignoreLoaded){
+        offset = 0;
+    } else {
+        offset = (await mongoAdapter.getLastLoadedId()) + 1;
+    }
+    
+    logger.info("Starting with last loaded %s", offset);
+    const crawler = new ShowCrawler(httpAdapter, mongoAdapter, offset , config["crawler"], logger);
     crawler.crawl();
 }
 

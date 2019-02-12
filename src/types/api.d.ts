@@ -5,5 +5,5 @@ export interface HTTPAdapter{
 }
 
 export interface MongoAdapter {
-    storeShow(show: ApiShowResult): Promise<any>
+    storeShow(show: ApiShowResult): Promise<void>
 }
