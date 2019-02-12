@@ -5,12 +5,6 @@ export interface ApiShowResult {
     _embedded: object
 }
 
-export interface Actor{
-    id : number,
-    name: string,
-    birthday: string
-}
-
 export interface DbConfig {
     collection: string,
 }

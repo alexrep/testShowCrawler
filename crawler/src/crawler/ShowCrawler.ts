@@ -1,6 +1,6 @@
 import {CrawlerConfig} from "../types";
 import {HTTPAdapter, MongoAdapter} from "../types/api";
-import EventEmitter = NodeJS.EventEmitter;
+import EventEmitter from "events" ;
 
 export class ShowCrawler extends EventEmitter{
     private http: HTTPAdapter;
@@ -38,9 +38,8 @@ export class ShowCrawler extends EventEmitter{
             const id = this.currentIndex;
             this.currentIndex ++;
             await this.process(id);
-        }
-
-        if (this.noTasksLeft()){
+            this.scheduleNext();
+        } else if (this.noTasksLeft()){
             this.logger.info("Job is done");
             this.emit("done")
         }
@@ -73,7 +72,6 @@ export class ShowCrawler extends EventEmitter{
         this.notFoundInRow = 0;
         this.logger.info("loaded show %s", result.name);
 
-        this.scheduleNext();
         try {
             await this.storage.storeShow(result);
             this.logger.debug("stored show %s", id);

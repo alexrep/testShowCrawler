@@ -24,6 +24,7 @@ async function start() {
     
     logger.info("Starting with last loaded %s", offset);
     const crawler = new ShowCrawler(httpAdapter, mongoAdapter, offset , config["crawler"], logger);
+    crawler.on("done", ()=> { process.exit(0)})
     crawler.crawl();
 }
 

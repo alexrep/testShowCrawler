@@ -1,6 +1,6 @@
 import {Collection, MongoClient} from "mongodb";
 import {MongoAdapter} from "../types/api";
-import {ApiShowResult, DbConfig} from "../types/index";
+import {ApiShowResult, DbConfig} from "../types";
 
 export class MongoAdapterImpl implements MongoAdapter {
     private collection: Collection;
