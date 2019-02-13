@@ -12,7 +12,6 @@ export class HTTPAdapterImpl implements HTTPAdapter {
         this.logger = logger;
         this.client = client;
         this.config = config;
-        this.logger.debug("HTTPAdapterImpl ", config);
     }
 
     private getUrl(id: number): string {

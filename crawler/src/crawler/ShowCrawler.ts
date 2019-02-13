@@ -22,7 +22,6 @@ export class ShowCrawler extends EventEmitter{
         this.requestCount = 0;
         this.scheduledTasks = 0;
         this.logger = logger;
-        this.logger.debug("ShowCrawler", config);
         this.processNext = this.processNext.bind(this);
     }
 

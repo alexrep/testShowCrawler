@@ -19,8 +19,8 @@ async function start() {
 
 
 
-    app.listen(config.http.port, ()=> {
-        logger.info("Listening to port %s", config.http.port)
+    app.listen(config.http.port, config.http.host , ()=> {
+        logger.info("Listening to  %s:%s", config.http.host, config.http.port)
     })
 
 

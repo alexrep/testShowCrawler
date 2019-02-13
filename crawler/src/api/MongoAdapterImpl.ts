@@ -9,7 +9,6 @@ export class MongoAdapterImpl implements MongoAdapter {
     constructor(client: MongoClient, config: DbConfig, logger: any) {
         this.logger = logger;
         this.collection = client.db().collection(config.collection);
-        this.logger.debug("MongoAdapterImpl ", config);
     }
 
     public async storeShow(show: ApiShowResult): Promise<void> {
