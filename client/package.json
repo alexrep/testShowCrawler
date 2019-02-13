@@ -7,7 +7,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node .",
-    "test": "mocha --compilers ts:ts-node/register ./tests/**/*.spec.ts"
+    "test": "mocha --compilers ts:ts-node/register ./test/**/*.spec.ts"
   },
   "repository": {
     "type": "git",

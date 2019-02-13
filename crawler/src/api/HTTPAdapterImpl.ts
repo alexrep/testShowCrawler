@@ -1,7 +1,6 @@
 import {ApiShowResult, HTTPClient, HTTPConfig} from "../types";
 import {HTTPAdapter} from "../types/api";
-
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+import delay from "../utils/delay"
 
 export class HTTPAdapterImpl implements HTTPAdapter {
     private client: HTTPClient;
@@ -15,7 +14,7 @@ export class HTTPAdapterImpl implements HTTPAdapter {
     }
 
     private getUrl(id: number): string {
-        return `${this.config.url}${id}?${this.config.options}`;
+        return `${this.config.host}${this.config.endpoint}${id}?${this.config.options}`;
     }
 
     private async loadWithRetries(url: string, attempt: number = 0){
@@ -30,8 +29,7 @@ export class HTTPAdapterImpl implements HTTPAdapter {
                     } else {
                         return {
                             error: {
-                                status: error.response.data.status,
-                                message: `${error.response.data.name} ${error.response.data.message}`
+                                status: error.response.status,
                             }
                         }
                     }
@@ -42,7 +40,7 @@ export class HTTPAdapterImpl implements HTTPAdapter {
 
     }
 
-    public async retreiveShow(id: number): Promise<ApiShowResult> {
+    public async retrieveShow(id: number): Promise<ApiShowResult> {
         this.logger.debug("starting request %s", this.getUrl(id));
         const url = this.getUrl(id);
         const response = await this.loadWithRetries(url);

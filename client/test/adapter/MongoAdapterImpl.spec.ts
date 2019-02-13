@@ -14,16 +14,16 @@ describe("MongoAdapterImpl", ()=>{
         "pageSize" : 5
     };
 
-    before(async ()=>{
+    beforeEach(async ()=>{
         client = await MongoClient.connect(testConfig.url, {});
         const collection = client.db().collection(testConfig.collection);
         await collection.insertMany(testCollection)
     });
 
-    after(async ()=>{
+    afterEach(async ()=>{
         await client.close();
     });
-
+    // Test passes but mongo-mock appeared to behave in undocumented way and hang test runner process
     it.skip("returns paginated shows in correct order", async ()=> {
         const adapter = new MongoAdapterImpl(client,testConfig, loggerMock);
         const result = await adapter.findShowsPage(1);

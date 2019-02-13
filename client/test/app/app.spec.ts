@@ -1,7 +1,8 @@
 import {ShowServiceImpl} from "../../src/service/ShowServiceImpl";
-import { expect } from 'chai';
 import 'mocha';
-import {MongoAdapterMock, testData, resultData} from "../helpers/MongoAdapterMock"
+import {MongoAdapterMock} from "../helpers/MongoAdapterMock"
+import {testData, resultData} from "../helpers/testData"
+
 import loggerMock from "../helpers/LoggerMock"
 import request from "supertest"
 import createApplication from "../../src/app"
@@ -13,7 +14,7 @@ describe('GET /show', function() {
         request(app)
             .get('/show')
             .expect('Content-Type', /json/)
-            .expect(200, done);
+            .expect(200,resultData, done);
     });
 
     it('responds with internal error', function(done) {

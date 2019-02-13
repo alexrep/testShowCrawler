@@ -33,7 +33,7 @@ export class ShowCrawler extends EventEmitter{
     }
 
     async processNext() {
-        if (this.notFoundInRow <= this.config.notFoundThreshold ) {
+        if (this.notFoundInRow < this.config.notFoundThreshold ) {
             const id = this.currentIndex;
             this.currentIndex ++;
             await this.process(id);
@@ -53,7 +53,7 @@ export class ShowCrawler extends EventEmitter{
         this.logger.debug("Loading %s  %s", id, attempt);
         let result;
         try {
-            result = await this.http.retreiveShow(id);
+            result = await this.http.retrieveShow(id);
         } catch (error) {
             const status = error.status;
             if (status) {
@@ -77,8 +77,6 @@ export class ShowCrawler extends EventEmitter{
         } catch (err){
             this.logger.error("Error while storing %s", err.message);
         }
-
-        this.requestCount --;
     }
 
     private scheduleNext(){

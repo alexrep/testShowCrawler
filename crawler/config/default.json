@@ -4,11 +4,12 @@
                 "collection": "shows"
         },
         "http": {
-                "url": "http://api.tvmaze.com/shows/",
                 "options": "embed=cast",
                 "attempts": 5,
                 "errorTimeout": 30000,
-                "skipRetryError": 404
+                "skipRetryError": 404,
+                "host": "http://api.tvmaze.com",
+                "endpoint": "/shows/"
         },
         "crawler": {
                 "parallelRequests": 10,

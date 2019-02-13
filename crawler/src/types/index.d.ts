@@ -10,20 +10,18 @@ export interface DbConfig {
 }
 
 export interface HTTPConfig {
-    url: string,
     options: string,
     errorTimeout: number,
     attempts: number,
     skipRetryError: number
+    host: string,
+    endpoint: string,
 }
 
 export interface CrawlerConfig {
-    url: string,
-    option: string,
     parallelRequests: number,
     notFoundThreshold: number,
     regularTimeout: number
-
 }
 
 
