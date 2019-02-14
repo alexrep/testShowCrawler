@@ -2,7 +2,7 @@
   "name": "testshowcrawler",
   "version": "1.0.0",
   "description": "show crawler",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
