@@ -1,8 +1,8 @@
+import EventEmitter from "events" ;
 import {CrawlerConfig} from "../types";
 import {HTTPAdapter, MongoAdapter} from "../types/api";
-import EventEmitter from "events" ;
 
-export class ShowCrawler extends EventEmitter{
+export class ShowCrawler extends EventEmitter {
     private http: HTTPAdapter;
     private storage: MongoAdapter;
     private config: CrawlerConfig;
@@ -27,28 +27,24 @@ export class ShowCrawler extends EventEmitter{
 
     public async crawl() {
         this.logger.debug("Starting crawling");
-        for  (let i = 0 ; i < this.config.parallelRequests; i++){
-            this.processNext()
+        for  (let i = 0 ; i < this.config.parallelRequests; i++) {
+            this.processNext();
         }
     }
 
-    async processNext() {
+    public async processNext() {
         if (this.notFoundInRow < this.config.notFoundThreshold ) {
             const id = this.currentIndex;
             this.currentIndex ++;
             await this.process(id);
             this.scheduleNext();
-        } else if (this.noTasksLeft()){
+        } else if (this.noTasksLeft()) {
             this.logger.info("Job is done");
-            this.emit("done")
+            this.emit("done");
         }
     }
 
-    private noTasksLeft():boolean{
-        return this.requestCount == 0 && this.scheduledTasks == 0
-    }
-
-    async process(id: number, attempt: number = 0) {
+    public async process(id: number, attempt: number = 0) {
         this.requestCount ++;
         this.logger.debug("Loading %s  %s", id, attempt);
         let result;
@@ -74,16 +70,20 @@ export class ShowCrawler extends EventEmitter{
         try {
             await this.storage.storeShow(result);
             this.logger.debug("stored show %s", id);
-        } catch (err){
+        } catch (err) {
             this.logger.error("Error while storing %s", err.message);
         }
     }
 
-    private scheduleNext(){
+    private noTasksLeft(): boolean {
+        return this.requestCount === 0 && this.scheduledTasks === 0;
+    }
+
+    private scheduleNext() {
         this.scheduledTasks ++ ;
-        setTimeout(()=> {
+        setTimeout(() => {
             this.scheduledTasks --;
-            this.processNext()
-        }, this.config.regularTimeout)
+            this.processNext();
+        }, this.config.regularTimeout);
     }
 }

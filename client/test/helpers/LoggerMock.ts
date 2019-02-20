@@ -1,6 +1,6 @@
 export default {
-    info(){},
-    debug(){},
-    error(){},
-    warn(){}
-}
+    info() {},
+    debug() {},
+    error() {},
+    warn() {}
+};

@@ -1,7 +1,7 @@
-import {DbConfig, MongoAdapter, StoredShow} from "../types";
 import {Collection, MongoClient} from "mongodb";
+import {DbConfig, MongoAdapter, StoredShow} from "../types";
 
-export class MongoAdapterImpl implements MongoAdapter{
+export class MongoAdapterImpl implements MongoAdapter {
     private collection: Collection;
     private logger: any;
     private config: DbConfig;
@@ -13,8 +13,8 @@ export class MongoAdapterImpl implements MongoAdapter{
         this.logger.debug("MongoAdapterImpl ", config);
     }
 
-    async findShowsPage(page:number):Promise<StoredShow[]>{
+    public async findShowsPage(page: number): Promise<StoredShow[]> {
         const offset = this.config.pageSize * page;
-        return await this.collection.find().sort({id: 1}).skip(offset).limit(this.config.pageSize).toArray()
+        return await this.collection.find().sort({id: 1}).skip(offset).limit(this.config.pageSize).toArray();
     }
 }

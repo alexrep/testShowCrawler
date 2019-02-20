@@ -1,6 +1,6 @@
 import {Collection, MongoClient} from "mongodb";
-import {MongoAdapter} from "../types/api";
 import {ApiShowResult, DbConfig} from "../types";
+import {MongoAdapter} from "../types/api";
 
 export class MongoAdapterImpl implements MongoAdapter {
     private collection: Collection;
@@ -15,7 +15,7 @@ export class MongoAdapterImpl implements MongoAdapter {
         const {id} = show;
         const result = await this.collection.findOneAndReplace({id}, show);
         this.logger.debug("Record replaced %s", !!result.value);
-        if (!result.value){
+        if (!result.value) {
             await this.collection.insertOne(show);
         }
     }
